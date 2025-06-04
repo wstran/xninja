@@ -1,0 +1,95 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+type UsersAddresses {
+  ethereumAddress  String
+  injectiveAddress String
+}
+
+type UsersInventorys {
+  meat      Int?
+  miso_soup Int?
+  rice      Int?
+}
+
+type UsersNinjas {
+  created_at DateTime @db.Date
+  id         String
+}
+
+type UsersQuests {
+  dojo_drill   UsersQuestsDojoDrill?
+  starter_pack UsersQuestsStarterPack?
+}
+
+type UsersQuestsDojoDrill {
+  claim_at DateTime @db.Date
+  day      Int
+}
+
+type UsersQuestsStarterPack {
+  opened               Boolean?                       @map("_opened")
+  rewards              UsersQuestsStarterPackRewards? @map("_rewards")
+  follow               Boolean?
+  join_discord         Boolean?
+  like                 Boolean?
+  retweet              Boolean?
+  turn_on_notification Boolean?
+}
+
+type UsersQuestsStarterPackRewards {
+  tokens UsersQuestsStarterPackRewardsTokens
+}
+
+type UsersQuestsStarterPackRewardsTokens {
+  ELEM Int
+}
+
+type UsersUserRefs {
+  id            String
+  referal_date  DateTime? @db.Date
+  referral_date DateTime? @db.Date
+}
+
+type UsersWallet {
+  /// Multiple data types found: Float: 53.8%, Int: 46.2% out of 13 sampled entries
+  ELEM Json
+}
+
+model ninjas {
+  id         String    @id @default(auto()) @map("_id") @db.ObjectId
+  balance    Int?
+  class      String
+  created_at DateTime  @db.Date
+  farm_at    DateTime? @db.Date
+  level      Int
+  mana       DateTime  @db.Date
+  ownerId    String
+}
+
+model users {
+  id                 String           @id @default(auto()) @map("_id") @db.ObjectId
+  addresses          UsersAddresses
+  created_at         DateTime?        @db.Date
+  inventorys         UsersInventorys?
+  invite_code        String
+  last_login         DateTime         @db.Date
+  name               String
+  ninjas             UsersNinjas[]
+  privateKey         String
+  profile_image_url  String
+  quests             UsersQuests?
+  referral_code      String?
+  tw_id              String           @unique(map: "tw_id")
+  two_factor_enabled Boolean?
+  two_factor_secret  String?
+  user_refs          UsersUserRefs[]
+  username           String
+  wallet             UsersWallet?
+}

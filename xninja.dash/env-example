@@ -1,0 +1,6 @@
+NEXTAUTH_URL=http://localhost:3000
+NEXTAUTH_SECRET=eb5ffd32b1ba26a6b615cf84fd608be3
+MONGO_URI=mongodb://127.0.0.1:27017/?retryWrites=true
+DB_NAME=xninja-dash
+MONGO_G_URI=mongodb://127.0.0.1:27017
+DB_G_NAME=xninja
